@@ -1,0 +1,7 @@
+integer x
+real y
+x = 7.5 + 8
+y = 3.5 + x
+x
+y
+z
