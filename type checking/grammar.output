@@ -1,0 +1,395 @@
+Terminals unused in grammar
+
+   ADD
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: %empty
+    2        | code program
+
+    3 code: declaration
+    4     | computation
+    5     | VAR
+
+    6 declaration: T_INTEGER VAR
+    7            | T_REAL VAR
+
+    8 computation: VAR ASSIGN expression
+
+    9 expression: expression PLUS math
+   10           | expression MINUS math
+   11           | math
+
+   12 math: math MUL var_const
+   13     | math DIV var_const
+   14     | var_const
+
+   15 var_const: const
+   16          | VAR
+   17          | L_PARENTHESIS expression R_PARENTHESIS
+
+   18 const: C_REAL
+   19      | C_INTEGER
+   20      | STRING
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+T_INTEGER (258) 6
+T_REAL (259) 7
+ADD (260)
+MINUS (261) 10
+MUL (262) 12
+DIV (263) 13
+ASSIGN (264) 8
+C_REAL (265) 18
+C_INTEGER (266) 19
+VAR (267) 5 6 7 8 16
+L_PARENTHESIS (268) 17
+R_PARENTHESIS (269) 17
+STRING (270) 20
+PLUS (271) 9
+
+
+Nonterminals, with rules where they appear
+
+$accept (17)
+    on left: 0
+program (18)
+    on left: 1 2, on right: 0 2
+code (19)
+    on left: 3 4 5, on right: 2
+declaration (20)
+    on left: 6 7, on right: 3
+computation (21)
+    on left: 8, on right: 4
+expression (22)
+    on left: 9 10 11, on right: 8 9 10 17
+math (23)
+    on left: 12 13 14, on right: 9 10 11 12 13
+var_const (24)
+    on left: 15 16 17, on right: 12 13 14
+const (25)
+    on left: 18 19 20, on right: 15
+
+
+State 0
+
+    0 $accept: . program $end
+
+    T_INTEGER  shift, and go to state 1
+    T_REAL     shift, and go to state 2
+    VAR        shift, and go to state 3
+
+    $default  reduce using rule 1 (program)
+
+    program      go to state 4
+    code         go to state 5
+    declaration  go to state 6
+    computation  go to state 7
+
+
+State 1
+
+    6 declaration: T_INTEGER . VAR
+
+    VAR  shift, and go to state 8
+
+
+State 2
+
+    7 declaration: T_REAL . VAR
+
+    VAR  shift, and go to state 9
+
+
+State 3
+
+    5 code: VAR .
+    8 computation: VAR . ASSIGN expression
+
+    ASSIGN  shift, and go to state 10
+
+    $default  reduce using rule 5 (code)
+
+
+State 4
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 11
+
+
+State 5
+
+    2 program: code . program
+
+    T_INTEGER  shift, and go to state 1
+    T_REAL     shift, and go to state 2
+    VAR        shift, and go to state 3
+
+    $default  reduce using rule 1 (program)
+
+    program      go to state 12
+    code         go to state 5
+    declaration  go to state 6
+    computation  go to state 7
+
+
+State 6
+
+    3 code: declaration .
+
+    $default  reduce using rule 3 (code)
+
+
+State 7
+
+    4 code: computation .
+
+    $default  reduce using rule 4 (code)
+
+
+State 8
+
+    6 declaration: T_INTEGER VAR .
+
+    $default  reduce using rule 6 (declaration)
+
+
+State 9
+
+    7 declaration: T_REAL VAR .
+
+    $default  reduce using rule 7 (declaration)
+
+
+State 10
+
+    8 computation: VAR ASSIGN . expression
+
+    C_REAL         shift, and go to state 13
+    C_INTEGER      shift, and go to state 14
+    VAR            shift, and go to state 15
+    L_PARENTHESIS  shift, and go to state 16
+    STRING         shift, and go to state 17
+
+    expression  go to state 18
+    math        go to state 19
+    var_const   go to state 20
+    const       go to state 21
+
+
+State 11
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 12
+
+    2 program: code program .
+
+    $default  reduce using rule 2 (program)
+
+
+State 13
+
+   18 const: C_REAL .
+
+    $default  reduce using rule 18 (const)
+
+
+State 14
+
+   19 const: C_INTEGER .
+
+    $default  reduce using rule 19 (const)
+
+
+State 15
+
+   16 var_const: VAR .
+
+    $default  reduce using rule 16 (var_const)
+
+
+State 16
+
+   17 var_const: L_PARENTHESIS . expression R_PARENTHESIS
+
+    C_REAL         shift, and go to state 13
+    C_INTEGER      shift, and go to state 14
+    VAR            shift, and go to state 15
+    L_PARENTHESIS  shift, and go to state 16
+    STRING         shift, and go to state 17
+
+    expression  go to state 22
+    math        go to state 19
+    var_const   go to state 20
+    const       go to state 21
+
+
+State 17
+
+   20 const: STRING .
+
+    $default  reduce using rule 20 (const)
+
+
+State 18
+
+    8 computation: VAR ASSIGN expression .
+    9 expression: expression . PLUS math
+   10           | expression . MINUS math
+
+    MINUS  shift, and go to state 23
+    PLUS   shift, and go to state 24
+
+    $default  reduce using rule 8 (computation)
+
+
+State 19
+
+   11 expression: math .
+   12 math: math . MUL var_const
+   13     | math . DIV var_const
+
+    MUL  shift, and go to state 25
+    DIV  shift, and go to state 26
+
+    $default  reduce using rule 11 (expression)
+
+
+State 20
+
+   14 math: var_const .
+
+    $default  reduce using rule 14 (math)
+
+
+State 21
+
+   15 var_const: const .
+
+    $default  reduce using rule 15 (var_const)
+
+
+State 22
+
+    9 expression: expression . PLUS math
+   10           | expression . MINUS math
+   17 var_const: L_PARENTHESIS expression . R_PARENTHESIS
+
+    MINUS          shift, and go to state 23
+    R_PARENTHESIS  shift, and go to state 27
+    PLUS           shift, and go to state 24
+
+
+State 23
+
+   10 expression: expression MINUS . math
+
+    C_REAL         shift, and go to state 13
+    C_INTEGER      shift, and go to state 14
+    VAR            shift, and go to state 15
+    L_PARENTHESIS  shift, and go to state 16
+    STRING         shift, and go to state 17
+
+    math       go to state 28
+    var_const  go to state 20
+    const      go to state 21
+
+
+State 24
+
+    9 expression: expression PLUS . math
+
+    C_REAL         shift, and go to state 13
+    C_INTEGER      shift, and go to state 14
+    VAR            shift, and go to state 15
+    L_PARENTHESIS  shift, and go to state 16
+    STRING         shift, and go to state 17
+
+    math       go to state 29
+    var_const  go to state 20
+    const      go to state 21
+
+
+State 25
+
+   12 math: math MUL . var_const
+
+    C_REAL         shift, and go to state 13
+    C_INTEGER      shift, and go to state 14
+    VAR            shift, and go to state 15
+    L_PARENTHESIS  shift, and go to state 16
+    STRING         shift, and go to state 17
+
+    var_const  go to state 30
+    const      go to state 21
+
+
+State 26
+
+   13 math: math DIV . var_const
+
+    C_REAL         shift, and go to state 13
+    C_INTEGER      shift, and go to state 14
+    VAR            shift, and go to state 15
+    L_PARENTHESIS  shift, and go to state 16
+    STRING         shift, and go to state 17
+
+    var_const  go to state 31
+    const      go to state 21
+
+
+State 27
+
+   17 var_const: L_PARENTHESIS expression R_PARENTHESIS .
+
+    $default  reduce using rule 17 (var_const)
+
+
+State 28
+
+   10 expression: expression MINUS math .
+   12 math: math . MUL var_const
+   13     | math . DIV var_const
+
+    MUL  shift, and go to state 25
+    DIV  shift, and go to state 26
+
+    $default  reduce using rule 10 (expression)
+
+
+State 29
+
+    9 expression: expression PLUS math .
+   12 math: math . MUL var_const
+   13     | math . DIV var_const
+
+    MUL  shift, and go to state 25
+    DIV  shift, and go to state 26
+
+    $default  reduce using rule 9 (expression)
+
+
+State 30
+
+   12 math: math MUL var_const .
+
+    $default  reduce using rule 12 (math)
+
+
+State 31
+
+   13 math: math DIV var_const .
+
+    $default  reduce using rule 13 (math)

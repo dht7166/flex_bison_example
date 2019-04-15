@@ -1,0 +1,10 @@
+integer x
+real y
+x = 7 * 8
+x
+y = x * 2
+x = x * 2 + (y + x)
+x
+y
+
+
